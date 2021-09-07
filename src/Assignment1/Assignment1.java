@@ -53,7 +53,7 @@ class ThirdChild extends Parent {
 }
 
 public class Assignment1 {
-    static int COUNT = 3000;
+    static int COUNT = 1000;
     interface Func {
         void func();
     }
@@ -201,12 +201,12 @@ public class Assignment1 {
         System.out.println("SingleByte on System.out        : " + elapsedTime1 + "ms");
         System.out.println("ByteArray on System.out         : " + elapsedTime2 + "ms");
 
-        long elapsedTime3 = testService.getElapsedTime(() -> {
-            try (OutputStream outputStream = new FileOutputStream("testSingleByte.txt")) {
-                generateCharacters(outputStream);
-            } catch (IOException ignored) {
-            }
-        });
+//        long elapsedTime3 = testService.getElapsedTime(() -> {
+//            try (OutputStream outputStream = new FileOutputStream("testSingleByte.txt")) {
+//                generateCharacters(outputStream);
+//            } catch (IOException ignored) {
+//            }
+//        });
 
         long elapsedTime4 = testService.getElapsedTime(() -> {
             try (OutputStream outputStream = new FileOutputStream("testArray.txt")) {
@@ -215,7 +215,7 @@ public class Assignment1 {
             }
         });
 
-        System.out.println("SingleByte on FileOutputStream  : " + elapsedTime3 + "ms");
+//        System.out.println("SingleByte on FileOutputStream  : " + elapsedTime3 + "ms");
         System.out.println("ByteArray on FileOutputStream   : " + elapsedTime4 + "ms");
     }
 }
