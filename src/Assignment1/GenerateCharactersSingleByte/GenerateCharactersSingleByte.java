@@ -1,32 +1,31 @@
-package GenerateCharacterByteArray;
+package Assignment1.GenerateCharactersSingleByte;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class GenerateCharacterByteArray {
+public class GenerateCharactersSingleByte {
     public static void main(String[] args) {
         try {
-            generateCharacterArray(System.out);
+            generateCharacters(System.out);
         } catch (IOException ioException) {
 
         }
     }
-    public static void generateCharacterArray(OutputStream out) throws IOException {
+
+    public static void generateCharacters(OutputStream out) throws IOException {
         // [33, 127] 범위에서 순환하면서 72개씩 출력
         int firstPrintableCharacter = 33;
         int numberOfPrintableCharacters = 94;
         int numberOfCharactersPerLine = 72;
         int start = firstPrintableCharacter;
         int count = 0;
-        int size = numberOfCharactersPerLine+2;
-        byte[] bytes = new byte[size];
+
         while (count < 1000) {
-            for (int i = start; i < start + numberOfCharactersPerLine; i++){
-                bytes[i-start] = (byte)((i - firstPrintableCharacter) % numberOfPrintableCharacters + firstPrintableCharacter);
+            for (int i = start; i < start + numberOfCharactersPerLine; i++) {
+                out.write(((i - firstPrintableCharacter) % numberOfPrintableCharacters + firstPrintableCharacter));
             }
-            bytes[size-2] = '\r';
-            bytes[size-1] = '\n';
-            out.write(bytes);
+            out.write('\r');
+            out.write('\n');
             start = (start + 1 - firstPrintableCharacter) % numberOfPrintableCharacters + firstPrintableCharacter;
             count++;
         }

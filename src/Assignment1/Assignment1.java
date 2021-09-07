@@ -173,16 +173,16 @@ public class Assignment1 {
     public static void main(String[] args) {
         TestService testService = new TestService();
 
-        System.out.println("1. InheritanceTest");
+        System.out.println("1. Assignment1.InheritanceTest");
         InheritanceTest();
 
-        System.out.println("2. ChildTest");
+        System.out.println("2. Assignment1.ChildTest");
         ChildTest();
 
-        System.out.println("3. OutputStreamWriteTest");
+        System.out.println("3. Assignment1.OutputStreamWriteTest");
         OutputStreamWriteTest();
 
-        System.out.println("4. GenerateCharactersSingleByte");
+        System.out.println("4. Assignment1.GenerateCharactersSingleByte");
         long elapsedTime1 = testService.getElapsedTime(() -> {
             try {
                 generateCharacters(System.out);
@@ -190,7 +190,7 @@ public class Assignment1 {
             }
         });
 
-        System.out.println("5. GenerateCharacterByteArray");
+        System.out.println("5. Assignment1.GenerateCharacterByteArray");
         long elapsedTime2 = testService.getElapsedTime(() -> {
             try {
                 generateCharacterArray(System.out);

@@ -1,4 +1,4 @@
-package OutputStreamWriteTest;
+package Assignment1.OutputStreamWriteTest;
 
 public class OutputStreamWriteTest {
     public static void main(String[] args) {

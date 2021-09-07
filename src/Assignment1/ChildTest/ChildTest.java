@@ -1,4 +1,4 @@
-package ChildTest;
+package Assignment1.ChildTest;
 
 class Parent2{
     int i = 7;

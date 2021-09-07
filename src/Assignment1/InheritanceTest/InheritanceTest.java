@@ -1,4 +1,4 @@
-package InheritanceTest;
+package Assignment1.InheritanceTest;
 
 class Parent{
     public String read(){
