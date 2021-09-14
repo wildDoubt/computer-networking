@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class FileView {
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
 
         if(args.length != 1){
             System.out.println("사용법: java FileView 파일이름");
@@ -30,7 +30,7 @@ public class FileView {
             }
 
         }
-        long end = System.currentTimeMillis();
-        System.out.println("Run-time: "+(end-start));
+        long end = System.nanoTime();
+        System.out.println("Run-time(ms): "+(end-start)/1e6);
     }
 }
