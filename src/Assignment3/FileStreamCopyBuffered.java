@@ -1,20 +1,18 @@
-package Assignment2.FileStreamCopy;
+package Assignment3;
 
 import Utils.Utils;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
-public class FileStreamCopy {
+public class FileStreamCopyBuffered {
     static int size;
     public static void FileStreamCopySingleByte(String[] args){
         FileInputStream fileInputStream = null;
         FileOutputStream fileOutputStream = null;
 
         try{
-            fileInputStream = new FileInputStream(args[0]);
-            fileOutputStream = new FileOutputStream(args[1]);
+            fileInputStream = new FileInputStream("testArray.txt");
+            fileOutputStream = new FileOutputStream("test.txt");
             int readCount;
             while((readCount=fileInputStream.read())!=-1){
                 fileOutputStream.write(readCount);
@@ -42,11 +40,19 @@ public class FileStreamCopy {
         try{
             fileInputStream = new FileInputStream("testArray.txt");
             fileOutputStream = new FileOutputStream("test.txt");
+
+            fileInputStream = new FileInputStream("testArray.txt");
+            fileOutputStream = new FileOutputStream("test.txt");
+
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
+
             int readCount;
             byte[] buffer = new byte[512];
 
-            while((readCount=fileInputStream.read(buffer))!=-1){
-                fileOutputStream.write(buffer, 0, readCount);
+            // bufferInput -> bufferOutput
+            while((readCount=bufferedInputStream.read(buffer))!=-1){
+                bufferedOutputStream.write(buffer, 0, readCount);
                 size+=readCount;
             }
         }catch (Exception exception){
