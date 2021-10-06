@@ -10,16 +10,32 @@ public class Polling {
             digests[i] = new ReturnDigest(args[i]);
             digests[i].start();
         }
-        Thread.sleep(500);
         for (int i =0;i<args.length;i++){
-            System.out.println("main " + i);
             StringBuffer result = new StringBuffer(args[i]);
             result.append(": ");
             byte[] digest = digests[i].getDigest();
-
+            // polling
+            if(digest==null){
+                i--;
+                Thread.yield();
+                continue;
+            }
             result.append(DatatypeConverter.printHexBinary(digest));
-
             System.out.println(result);
         }
+//        for (int i =0;i<args.length;i++){
+////            System.out.println("main " + i);
+//            while(true){
+//                byte[] digest = digests[i].getDigest();
+//                if(digest!=null){
+//                    StringBuffer result = new StringBuffer(args[i]);
+//                    result.append(": ");
+//                    result.append(DatatypeConverter.printHexBinary(digest));
+//                    System.out.println(result);
+//                    break;
+//                }
+//            }
+//
+//        }
     }
 }

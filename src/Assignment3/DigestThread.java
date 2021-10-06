@@ -35,10 +35,11 @@ public class DigestThread extends Thread {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         for (String filename : args) {
             Thread thread = new DigestThread(filename);
             thread.start();
+            // Thread.sleep(500);
         }
     }
 }

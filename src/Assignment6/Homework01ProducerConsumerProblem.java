@@ -57,7 +57,8 @@ class Buffer {
     public synchronized int get() throws InterruptedException {
         //if there is no available contents, keep waiting
         if(!available) this.wait();
-        //if there is available contents, print the contents on screen (this is like consuming new contents), and notify
+        //if there is available contents,
+        //print the contents on screen (this is like consuming new contents), and notify
         System.out.println("Buffer: "+ contents);
         this.notify();
         //set available to false
@@ -68,7 +69,8 @@ class Buffer {
     public synchronized void put(int value) throws InterruptedException {
         //if there is available contents, keep waiting
         if(available) this.wait();
-        //if there is no available contents, store value to contents (this is like producing new contents), and notify
+        //if there is no available contents,
+        //store value to contents (this is like producing new contents), and notify
         contents = value;
         this.notify();
         //set available to true
