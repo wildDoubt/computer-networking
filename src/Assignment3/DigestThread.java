@@ -30,7 +30,7 @@ public class DigestThread extends Thread {
             result.append(": ");
             result.append(DatatypeConverter.printHexBinary(digest));
             System.out.println(result);
-        }catch (IOException | NoSuchAlgorithmException exception){
+        }catch (IOException | NoSuchAlgorithmException  exception){
             System.err.println(exception);
         }
     }
@@ -39,7 +39,7 @@ public class DigestThread extends Thread {
         for (String filename : args) {
             Thread thread = new DigestThread(filename);
             thread.start();
-            // Thread.sleep(500);
+            Thread.sleep(500);
         }
     }
 }
