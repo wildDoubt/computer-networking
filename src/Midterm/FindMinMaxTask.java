@@ -14,13 +14,18 @@ public class FindMinMaxTask implements Callable<double[]> {
     private double maxValue = Double.MIN_VALUE;
     private double minValue = Double.MAX_VALUE;
     private int maxRow, maxCol, minRow, minCol, maxC, maxD, minC, minD;
-
+    private int missingFiles;
+    private long totalCount;
+    private double totalSum;
 
     FindMinMaxTask(int startC, int startD, int endC, int endD) {
         this.startC = startC;
         this.startD = startD;
         this.endC = endC;
         this.endD = endD;
+        this.missingFiles = 0;
+        this.totalCount = 0;
+        this.totalSum = 0;
     }
 
     private void calc(int c, int d) throws IOException {
@@ -40,6 +45,8 @@ public class FindMinMaxTask implements Callable<double[]> {
                 stringTokenizer = new StringTokenizer(inputLine, "\t");
                 while (stringTokenizer.hasMoreElements()) {
                     double temp = Double.parseDouble(stringTokenizer.nextToken());
+                    totalSum+=temp;
+                    totalCount++;
                     if (temp > maxValue) {
                         maxRow = currRow;
                         maxCol = currCol;
@@ -60,6 +67,7 @@ public class FindMinMaxTask implements Callable<double[]> {
                 currRow++;
             }
         } catch (FileNotFoundException ignored) {
+            missingFiles++;
         }
     }
 
@@ -86,7 +94,8 @@ public class FindMinMaxTask implements Callable<double[]> {
 
         return new double[]{
                 maxC, maxD, maxRow, maxCol, maxValue,
-                minC, minD, minRow, minCol, minValue
+                minC, minD, minRow, minCol, minValue,
+                missingFiles, totalCount, totalSum
         };
     }
 }

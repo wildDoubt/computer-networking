@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
 public class MultithreadedMinMaxFinder {
 
     static int SIZE = 3000;
@@ -16,12 +17,12 @@ public class MultithreadedMinMaxFinder {
         System.out.println("core count: " + core);
         int startC, startD;
         int endC, endD;
-        
+
         int taskStart, taskEnd; // 작업의 시작과 끝
 
-        for (int i = 0; i < core; i ++) {
-            taskStart = i*d;
-            taskEnd = i==core-1?SIZE:(i+1) * d;
+        for (int i = 0; i < core; i++) {
+            taskStart = i * d;
+            taskEnd = i == core - 1 ? SIZE : (i + 1) * d;
             System.out.println(taskStart + " " + taskEnd);
             startC = taskStart / 60 + 1;
             startD = taskStart % 60 + 1;
@@ -53,7 +54,9 @@ public class MultithreadedMinMaxFinder {
         int maxRow = 0, maxCol = 0, maxC = 0, maxD = 0;
         double minValue = Double.MAX_VALUE;
         int minRow = 0, minCol = 0, minC = 0, minD = 0;
-
+        long miss = 0;
+        double totalSum = 0;
+        long totalCount = 0;
         double[][] data = find(coreCount);
         for (double[] result : data) {
             if (maxValue < result[4]) {
@@ -70,10 +73,20 @@ public class MultithreadedMinMaxFinder {
                 minC = (int) result[5];
                 minD = (int) result[6];
             }
+            miss += result[10];
+            totalCount += result[11];
+            totalSum += result[12];
         }
-        System.out.println("MAX\n");
-        System.out.println("c: " + maxC + '\t' + "d: " + maxD + '\t' + "row: " + maxRow + '\t' + "column: " + maxCol + '\t' + "maxValue: " + maxValue + '\n');
-        System.out.println("MIN\n");
-        System.out.println("c: " + minC + '\t' + "d: " + minD + '\t' + "row: " + minRow + '\t' + "column: " + minCol + '\t' + "maxValue: " + minValue + '\n');
+        System.out.println("MAX");
+        System.out.println("c: " + maxC + '\t' + "d: " + maxD + '\t' + "row: " + maxRow + '\t' + "column: " + maxCol + '\t' + "maxValue: " + maxValue);
+        System.out.println();
+        System.out.println("MIN");
+        System.out.println("c: " + minC + '\t' + "d: " + minD + '\t' + "row: " + minRow + '\t' + "column: " + minCol + '\t' + "maxValue: " + minValue);
+        System.out.println();
+        System.out.println("Total Sum:\t" + totalSum);
+        System.out.println("Total Count:\t" + totalCount);
+        System.out.println("Average:\t" + String.format("%.4f", totalSum / totalCount));
+        System.out.println();
+        System.out.println("number of missing files: " + miss);
     }
 }
