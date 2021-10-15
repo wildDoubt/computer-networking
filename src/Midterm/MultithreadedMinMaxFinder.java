@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 public class MultithreadedMinMaxFinder {
 
-    static int SIZE = 600;
+    static int SIZE = 120;
 
     public static double[][] find(int core) throws ExecutionException, InterruptedException {
         int d = SIZE / core;
@@ -16,13 +16,17 @@ public class MultithreadedMinMaxFinder {
         System.out.println("core count: " + core);
         int startC, startD;
         int endC, endD;
-        for (int i = 0; i < SIZE; i += d) {
-            System.out.println(i + " " + (i + d));
-            startC = i / 60;
-            startD = i % 60;
-            endC = (i + d) / 60;
-            endD = (i + d) % 60;
-            tasks[i / d] = new FindMinMaxTask(startC, startD, endC, endD);
+        
+        int taskStart, taskEnd; // 작업의 시작과 끝
+        for (int i = 0; i < core; i ++) {
+            taskStart = i*d;
+            taskEnd = i==core-1?SIZE:(i+1) * d;
+            System.out.println(taskStart + " " + taskEnd);
+            startC = taskStart / 60;
+            startD = taskStart % 60;
+            endC = taskEnd / 60;
+            endD = taskEnd % 60;
+            tasks[i] = new FindMinMaxTask(startC, startD, endC, endD);
             System.out.println(startC + "\t" + startD + "\t" + endC + "\t" + endD);
         }
         long start = System.nanoTime();
