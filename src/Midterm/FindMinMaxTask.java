@@ -31,7 +31,7 @@ public class FindMinMaxTask implements Callable<double[]> {
         URL url;
         if (c >= 26) url = new URL(baseURL + "file%20" + "[c=" + c + "]_[d=" + d + "].txt");
         else url = new URL(baseURL + "file%20" + "<c=" + c + ">_<d=" + d + ">.txt");
-//                System.out.println(url);
+
         StringTokenizer stringTokenizer;
 
         try {
@@ -65,14 +65,23 @@ public class FindMinMaxTask implements Callable<double[]> {
 
     @Override
     public double[] call() throws Exception {
-        for (int i = startC; i < endC; i++) {
-            for (int j = 0; j < 50; j++) {
-                calc(i, j);
+//        for (int i = startC; i < endC; i++) {
+//            for (int j = 1; j <= 60; j++) {
+//                calc(i, j);
+//
+//            }
+//        }
+        int indexC = startC;
+        int indexD = startD;
+        while (indexC <= endC) {
+            if(indexC==endC && indexD>=endD) break;
+            calc(indexC, indexD);
+//            System.out.println("pair: " + indexC + " " + indexD);
+            indexD++;
+            if (indexD > 60) {
+                indexC++;
+                indexD = 1;
             }
-        }
-
-        for(int j=0;j<endD;j++){
-            calc(endC, j);
         }
 
         return new double[]{
