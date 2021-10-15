@@ -1,9 +1,6 @@
 package Midterm;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.StringTokenizer;
@@ -17,8 +14,9 @@ public class FindMinMaxTask implements Callable<double[]> {
     private int missingFiles;
     private long totalCount;
     private double totalSum;
+    private boolean option;
 
-    FindMinMaxTask(int startC, int startD, int endC, int endD) {
+    FindMinMaxTask(int startC, int startD, int endC, int endD, boolean option) {
         this.startC = startC;
         this.startD = startD;
         this.endC = endC;
@@ -26,6 +24,7 @@ public class FindMinMaxTask implements Callable<double[]> {
         this.missingFiles = 0;
         this.totalCount = 0;
         this.totalSum = 0;
+        this.option = option;
     }
 
     private void calc(int c, int d) throws IOException {
@@ -40,7 +39,9 @@ public class FindMinMaxTask implements Callable<double[]> {
         StringTokenizer stringTokenizer;
 
         try {
-            bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+            if(!option) bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+            else  bufferedReader = new BufferedReader(new FileReader("result/result_" + c + "_" + d + ".txt"));
+
             while ((inputLine = bufferedReader.readLine()) != null) {
                 stringTokenizer = new StringTokenizer(inputLine, "\t");
                 while (stringTokenizer.hasMoreElements()) {

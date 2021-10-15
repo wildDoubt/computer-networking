@@ -9,7 +9,7 @@ public class MultithreadedMinMaxFinder {
 
     static int SIZE = 3000;
 
-    public static double[][] find(int core) throws ExecutionException, InterruptedException {
+    public static double[][] find(int core, boolean option) throws ExecutionException, InterruptedException {
         int d = SIZE / core;
         double[][] result = new double[core][];
         FindMinMaxTask[] tasks = new FindMinMaxTask[core];
@@ -23,16 +23,15 @@ public class MultithreadedMinMaxFinder {
         for (int i = 0; i < core; i++) {
             taskStart = i * d;
             taskEnd = i == core - 1 ? SIZE : (i + 1) * d;
-            System.out.println(taskStart + " " + taskEnd);
             startC = taskStart / 60 + 1;
             startD = taskStart % 60 + 1;
             endC = taskEnd / 60 + 1;
             endD = taskEnd % 60 + 1;
-            tasks[i] = new FindMinMaxTask(startC, startD, endC, endD);
-            System.out.println(startC + "\t" + startD + "\t" + endC + "\t" + endD);
+            tasks[i] = new FindMinMaxTask(startC, startD, endC, endD, option); // (startC, starD) ~ (endC, endD)
         }
-        long start = System.nanoTime();
         ExecutorService service = Executors.newFixedThreadPool(core);
+
+        long start = System.nanoTime();
 
         for (int i = 0; i < core; i++) {
             futures[i] = service.submit(tasks[i]);
@@ -57,7 +56,10 @@ public class MultithreadedMinMaxFinder {
         long miss = 0;
         double totalSum = 0;
         long totalCount = 0;
-        double[][] data = find(coreCount);
+
+        // option true: read from file
+        // option false: read from URL
+        double[][] data = find(coreCount, true);
         for (double[] result : data) {
             if (maxValue < result[4]) {
                 maxValue = result[4];
