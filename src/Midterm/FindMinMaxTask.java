@@ -14,18 +14,17 @@ public class FindMinMaxTask implements Callable<double[]> {
     private double maxValue = Double.MIN_VALUE;
     private double minValue = Double.MAX_VALUE;
     private int maxRow, maxCol, minRow, minCol, maxC, maxD, minC, minD;
-    private int currRow, currCol;
+
 
     FindMinMaxTask(int startC, int startD, int endC, int endD) {
         this.startC = startC;
         this.startD = startD;
         this.endC = endC;
         this.endD = endD;
-        currRow = 0;
-        currCol = 0;
     }
 
     private void calc(int c, int d) throws IOException {
+        int currRow=0, currCol=0;
         BufferedReader bufferedReader;
         String inputLine;
         String baseURL = "https://home.konkuk.ac.kr/~leehw/Site/nptest/";
