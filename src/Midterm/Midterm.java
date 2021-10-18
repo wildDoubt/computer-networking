@@ -5,7 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.StringTokenizer;
 
-class MyThread extends Thread {
+class MyThread {
     private BufferedReader bufferedReader;
     private String inputLine;
     private int[] result;
@@ -22,8 +22,7 @@ class MyThread extends Thread {
         currCol = 0;
     }
 
-    @Override
-    public void run() {
+    public int run() {
         try {
             String baseURL = "https://home.konkuk.ac.kr/~leehw/Site/nptest/";
             URL url;
@@ -35,39 +34,24 @@ class MyThread extends Thread {
 //            System.out.println(url);
 
 
-            StringTokenizer stringTokenizer;
             try {
                 bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
-                FileOutputStream fileOutputStream = new FileOutputStream("result/result_" + this.c + "_" + this.d + ".txt");
+                FileOutputStream fileOutputStream = new FileOutputStream("result1/result_" + this.c + "_" + this.d + ".txt");
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
                 while ((inputLine = bufferedReader.readLine()) != null) {
                     bufferedWriter.write(inputLine+'\n');
-//                    System.out.println(c+" "+d);
-//                    stringTokenizer = new StringTokenizer(inputLine, "\t");
-//                    while (stringTokenizer.hasMoreElements()) {
-//                        double temp = Double.parseDouble(stringTokenizer.nextToken());
-//                        if (temp > maxValue) {
-//                            maxRow = currRow;
-//                            maxCol = currCol;
-//                            maxValue = temp;
-//                        }
-//                        if (temp < minValue) {
-//                            minRow = currRow;
-//                            minCol = currCol;
-//                            minValue = temp;
-//                        }
-//                        currCol++;
-//                    }
-//                    currCol = 0;
-//                    currRow++;
                 }
+                bufferedWriter.close();
+                return 1;
             } catch (FileNotFoundException ignored) {
+
             }
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
     public double[] getMaxValue() {
@@ -83,42 +67,20 @@ class MyThread extends Thread {
 
 public class Midterm {
     public static void main(String[] args) throws InterruptedException {
-        MyThread[][] threads = new MyThread[50][60];
+        MyThread[][] threads = new MyThread[51][61];
         double maxValue = Double.MIN_VALUE;
         int maxRow = 0, maxCol = 0, maxC = 0, maxD = 0;
         double minValue = Double.MAX_VALUE;
         int minRow = 0, minCol = 0, minC = 0, minD = 0;
 
+        int counts = 0;
+
         long start = System.nanoTime();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 50; j++) {
+        for (int i = 1; i <= 50; i++) {
+            for (int j = 1; j <= 60; j++) {
                 threads[i][j] = new MyThread(i, j);
-                threads[i][j].start();
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 50; j++) {
-                threads[i][j].join();
-//                System.out.println(i+" "+j+" joined");
-//                try {
-//                    double[] maxResult = threads[i][j].getMaxValue();
-//                    double[] minResult = threads[i][j].getMinValue();
-//                    if (maxValue < maxResult[2]) {
-//                        maxValue = maxResult[2];
-//                        maxRow = (int) maxResult[0];
-//                        maxCol = (int) maxResult[1];
-//                        maxC = i;
-//                        maxD = j;
-//                    }
-//                    if (minValue > minResult[2]) {
-//                        minValue = minResult[2];
-//                        minRow = (int) minResult[0];
-//                        minCol = (int) minResult[1];
-//                        minC = i;
-//                        minD = j;
-//                    }
-//                } catch (NullPointerException ignored) {
-//                }
+                counts += threads[i][j].run();
+//                System.out.println(i+" "+j+" end");
             }
         }
 
@@ -128,5 +90,6 @@ public class Midterm {
         System.out.println("c: " + maxC + '\t' + "d: " + maxD + '\t' + "row: " + maxRow + '\t' + "column: " + maxCol + '\t' + "maxValue: " + maxValue + '\n');
         System.out.println("MIN\n");
         System.out.println("c: " + minC + '\t' + "d: " + minD + '\t' + "row: " + minRow + '\t' + "column: " + minCol + '\t' + "maxValue: " + minValue + '\n');
+        System.out.println("Total: "+ counts);
     }
 }
