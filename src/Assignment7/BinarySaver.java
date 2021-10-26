@@ -30,12 +30,18 @@ public class BinarySaver {
             InputStream in = new BufferedInputStream(raw);
             byte[] data = new byte[contentLength];
             int offset = 0;
-
-            while (offset < contentLength) {
-                int bytesRead = in.read(data, offset, data.length - offset);
-                if (bytesRead == -1) break;
-                offset += bytesRead;
+            int temp;
+            int index = 0;
+            while((temp = in.read())!=-1){
+                if(index%16==0) System.out.println();
+                System.out.print(Integer.toHexString(temp)+'\t');
+                index++;
             }
+//            while (offset < contentLength) {
+//                int bytesRead = in.read(data, offset, data.length - offset);
+//                if (bytesRead == -1) break;
+//                offset += bytesRead;
+//            }
 
             if (offset != contentLength) {
                 throw new IOException("Only read " + offset
