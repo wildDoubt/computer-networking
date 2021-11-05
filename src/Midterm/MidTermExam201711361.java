@@ -37,18 +37,16 @@ class FindMinMaxTask implements Callable<double[]> {
         url2 = new URL(baseURL + "file%20" + "{c=" + c + "}_{d=" + d + "}.txt");
         URLConnection conn1 = url1.openConnection();
         URLConnection conn2 = url2.openConnection();
-
 //        conn1.setConnectTimeout(60000);
 //        conn2.setConnectTimeout(60000);
 
         StringTokenizer stringTokenizer;
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(conn1.getInputStream()));// 여기서 에러나면 url2 탐색
-        } catch (FileNotFoundException e1) {
+        } catch (Exception e1) {
             try {
                 bufferedReader = new BufferedReader(new InputStreamReader(conn2.getInputStream()));// 여기서 에러나면 url2 탐색
-
-            } catch (FileNotFoundException e2) {
+            } catch (Exception e2) {
                 missingFiles++;
                 return;
             }
