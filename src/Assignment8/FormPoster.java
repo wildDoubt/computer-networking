@@ -30,8 +30,7 @@ public class FormPoster {
     public InputStream post() throws IOException{
         URLConnection uc = url.openConnection();
         uc.setDoOutput(true);
-        uc.setRequestProperty("User-Agent",
-                "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36");
+        uc.setRequestProperty("Connection", "close");
 
         try(OutputStreamWriter out
                  = new OutputStreamWriter(uc.getOutputStream(),"UTF-8")){
